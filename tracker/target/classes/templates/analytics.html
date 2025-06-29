@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Analytics - UPI Analytics Pro</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --dark-bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --border-color: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8a8;
+            --accent-blue: #4f46e5;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .navbar {
+            background: var(--card-bg) !important;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-modern {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+        
+        .stats-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stats-card.primary {
+            background: var(--gradient-primary);
+        }
+        
+        .stats-card.success {
+            background: var(--gradient-success);
+        }
+        
+        .stats-card.warning {
+            background: var(--gradient-warning);
+        }
+        
+        .stats-card.danger {
+            background: var(--gradient-danger);
+        }
+        
+        .stats-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .stats-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .section-title {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 2rem 0;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">
+                <i class="fas fa-chart-line me-3"></i>
+                <span class="logo">UPI Analytics Pro</span>
+            </span>
+            <div class="navbar-text d-flex align-items-center gap-3">
+                <small class="text-muted">Analytics Dashboard</small>
+                <a href="/" class="btn btn-modern">
+                    <i class="fas fa-home me-2"></i>Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card primary">
+                    <i class="fas fa-money-bill-wave stats-icon"></i>
+                    <div class="stats-value" th:text="${'₹' + #numbers.formatDecimal(totalVolume, 1, 2)}">₹0.00</div>
+                    <div class="stats-label">Total Volume</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card success">
+                    <i class="fas fa-exchange-alt stats-icon"></i>
+                    <div class="stats-value" th:text="${transactions.size()}">0</div>
+                    <div class="stats-label">Total Transactions</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card warning">
+                    <i class="fas fa-globe stats-icon"></i>
+                    <div class="stats-value" th:text="${uniqueCountries}">0</div>
+                    <div class="stats-label">Unique Countries</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card danger">
+                    <i class="fas fa-chart-bar stats-icon"></i>
+                    <div class="stats-value" th:text="${monthlyExpenditure.size()}">0</div>
+                    <div class="stats-label">Active Months</div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${transactions.isEmpty()}" class="empty-state">
+            <i class="fas fa-chart-pie"></i>
+            <h4>No data available for analytics</h4>
+            <p>Add some transactions to see detailed analytics and charts.</p>
+            <a href="/" class="btn btn-modern">
+                <i class="fas fa-plus me-2"></i>Add Transaction
+            </a>
+        </div>
+
+        <div th:if="${!transactions.isEmpty()}" class="row">
+            <!-- Monthly Expenditure Chart -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="section-title">
+                            <i class="fas fa-chart-line"></i>Monthly Expenditure
+                        </h5>
+                        <div class="chart-container">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country Distribution Chart -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="section-title">
+                            <i class="fas fa-globe"></i>Country Distribution
+                        </h5>
+                        <div class="chart-container">
+                            <canvas id="countryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Currency Distribution Chart -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="section-title">
+                            <i class="fas fa-coins"></i>Currency Distribution
+                        </h5>
+                        <div class="chart-container">
+                            <canvas id="currencyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Timeline -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="section-title">
+                            <i class="fas fa-clock"></i>Recent Activity
+                        </h5>
+                        <div class="chart-container">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        // Parse Thymeleaf data
+        const transactions = /*[[${transactions}]]*/ [];
+        const monthlyExpenditure = /*[[${monthlyExpenditure}]]*/ {};
+        
+        // Monthly Expenditure Chart
+        if (Object.keys(monthlyExpenditure).length > 0) {
+            const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(monthlyExpenditure),
+                    datasets: [{
+                        label: 'Monthly Expenditure (₹)',
+                        data: Object.values(monthlyExpenditure),
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                color: '#a8a8a8'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#a8a8a8'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Country Distribution Chart
+        const countryData = {};
+        transactions.forEach(t => {
+            countryData[t.country] = (countryData[t.country] || 0) + 1;
+        });
+
+        if (Object.keys(countryData).length > 0) {
+            const countryCtx = document.getElementById('countryChart').getContext('2d');
+            new Chart(countryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(countryData),
+                    datasets: [{
+                        data: Object.values(countryData),
+                        backgroundColor: [
+                            '#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+                            '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Currency Distribution Chart
+        const currencyData = {};
+        transactions.forEach(t => {
+            currencyData[t.currency] = (currencyData[t.currency] || 0) + 1;
+        });
+
+        if (Object.keys(currencyData).length > 0) {
+            const currencyCtx = document.getElementById('currencyChart').getContext('2d');
+            new Chart(currencyCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(currencyData),
+                    datasets: [{
+                        data: Object.values(currencyData),
+                        backgroundColor: [
+                            '#10b981', '#4f46e5', '#f59e0b', '#ef4444', '#8b5cf6'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Transaction Timeline Chart
+        const timelineData = {};
+        transactions.forEach(t => {
+            const date = new Date(t.timestamp).toLocaleDateString();
+            timelineData[date] = (timelineData[date] || 0) + 1;
+        });
+
+        if (Object.keys(timelineData).length > 0) {
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            new Chart(timelineCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(timelineData),
+                    datasets: [{
+                        label: 'Transactions per Day',
+                        data: Object.values(timelineData),
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                color: '#a8a8a8'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#a8a8a8'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html> 
