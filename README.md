@@ -1,4 +1,4 @@
-# 🚀 UPI Analytics Pro
+ UPI Analytics Pro
 
 A modern, professional UPI transaction analytics dashboard built with Spring Boot, featuring real-time multi-currency transaction monitoring, interactive charts, and a beautiful dark theme interface.
 
@@ -8,38 +8,38 @@ A modern, professional UPI transaction analytics dashboard built with Spring Boo
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1.3-purple)
 ![Chart.js](https://img.shields.io/badge/Chart.js-4.0-yellow)
 
-## ✨ Features
+ Features
 
-### 🎨 **Modern Dark Theme**
+Modern Dark Theme
 - Professional dark interface with gradient accents
 - Responsive design that works on all devices
 - Smooth animations and hover effects
 - Modern card-based layout
 
-### 📊 **Real-time Analytics**
+Real-time Analytics
 - **Interactive Charts**: Monthly trends, country distribution, currency analysis
 - **Live Statistics**: Total volume, transaction count, unique countries
 - **Multi-Currency Support**: 20+ countries with automatic exchange rates
 - **Transaction Timeline**: Visual representation of transaction patterns
 
-### 💰 **Multi-Currency Support**
+Multi-Currency Support
 - **20+ Countries**: India, USA, UK, EU, Japan, Australia, Canada, and more
 - **Automatic Conversion**: Real-time INR conversion rates
 - **Currency Detection**: Automatic currency assignment based on country
 - **Exchange Rate Management**: Built-in exchange rate system
 
-### 🔧 **Transaction Management**
+ **Transaction Management**
 - **Add Transactions**: Easy form-based transaction entry
 - **View All Transactions**: Complete transaction history with filtering
 - **Delete Transactions**: Individual and bulk deletion options
 - **Real-time Updates**: Instant data refresh after operations
 
-### 📱 **Responsive Design**
+ **Responsive Design**
 - **Mobile-Friendly**: Optimized for smartphones and tablets
 - **Desktop Optimized**: Full-featured experience on larger screens
 - **Cross-Browser**: Works on Chrome, Firefox, Safari, Edge
 
-## 🛠️ Technology Stack
+Technology Stack
 
 - **Backend**: Spring Boot 3.5.3
 - **Database**: MySQL 8.0
@@ -48,14 +48,14 @@ A modern, professional UPI transaction analytics dashboard built with Spring Boo
 - **Icons**: Font Awesome 6.0
 - **Build Tool**: Maven
 
-## 🚀 Quick Start
+ Quick Start
 
-### Prerequisites
+ Prerequisites
 - Java 17 or higher
 - MySQL 8.0 or higher
 - Maven 3.6+
 
-### Installation
+Installation
 
 1. **Clone the repository**
    ```bash
@@ -84,7 +84,7 @@ A modern, professional UPI transaction analytics dashboard built with Spring Boo
 5. **Access the Application**
    Open your browser and go to: `http://localhost:8082`
 
-## 📋 Application Structure
+Application Structure
 
 ```
 src/
@@ -105,21 +105,21 @@ src/
 │       └── application.properties
 ```
 
-## 🎯 Key Features Explained
+ Key Features Explained
 
-### Dashboard (`/`)
+Dashboard (`/`)
 - **Statistics Cards**: Real-time overview of total volume, transactions, and countries
 - **Transaction Form**: Add new transactions with multi-currency support
 - **Interactive Charts**: Country distribution, volume trends, monthly patterns
 - **Recent Transactions**: Latest 5 transactions with delete functionality
 
-### All Transactions (`/transactions`)
+ All Transactions (`/transactions`)
 - **Complete History**: View all transactions in a modern table
 - **Delete Options**: Remove individual transactions
 - **Empty State**: Helpful message when no transactions exist
 - **Responsive Table**: Works perfectly on all screen sizes
 
-### Analytics (`/analytics`)
+ Analytics (`/analytics`)
 - **4 Interactive Charts**:
   - Monthly expenditure trends
   - Country distribution (doughnut chart)
@@ -128,9 +128,9 @@ src/
 - **Statistics Overview**: Key metrics with beautiful cards
 - **Real-time Data**: Charts update with actual transaction data
 
-## 💡 Usage Examples
+ Usage Examples
 
-### Adding a Transaction
+Adding a Transaction
 1. Go to the main dashboard
 2. Fill in the transaction form:
    - **Sender UPI ID**: `user@upi`
@@ -140,18 +140,18 @@ src/
    - **Purpose**: `Shopping` (optional)
 3. Click "Add Transaction"
 
-### Viewing Analytics
+Viewing Analytics
 1. Click "Analytics" in the navigation
 2. Explore the interactive charts
 3. Hover over chart elements for detailed information
 4. View statistics cards for quick insights
 
-### Managing Transactions
+Managing Transactions
 1. Click "All Transactions" to see complete history
 2. Use the delete button (🗑️) to remove individual transactions
 3. Use "Clear All" button to remove all transactions
 
-## 🎨 Customization
+ Customization
 
 ### Changing Colors
 Edit the CSS variables in any template file:
@@ -181,14 +181,14 @@ Change the server port in `application.properties`:
 server.port=8082
 ```
 
-### Database Configuration
+Database Configuration
 ```properties
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
-## 📊 API Endpoints
+API Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -200,7 +200,7 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 | `/clear-all` | DELETE | Delete all transactions |
 | `/test` | GET | Health check endpoint |
 
-## 🚀 Deployment
+Deployment
 
 ### Local Development
 ```bash
@@ -221,7 +221,7 @@ EXPOSE 8082
 ENTRYPOINT ["java","-jar","/app.jar"]
 ```
 
-## 🤝 Contributing
+Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
@@ -229,24 +229,8 @@ ENTRYPOINT ["java","-jar","/app.jar"]
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
 
-- **Spring Boot** for the robust backend framework
-- **Bootstrap** for the responsive UI components
-- **Chart.js** for the beautiful interactive charts
-- **Font Awesome** for the professional icons
-- **Thymeleaf** for the server-side templating
-
-## 📞 Support
-
-If you have any questions or need help, please open an issue on GitHub or contact the development team.
-
----
-
-**Made with ❤️ for UPI transaction analytics**
 
 *UPI Analytics Pro - Where Data Meets Design* 
